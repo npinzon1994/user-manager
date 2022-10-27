@@ -1,11 +1,10 @@
-import React from 'react';
-import NewUser from './components/Users/NewUser';
-
+import React from "react";
+import NewUser from "./components/Users/NewUser";
 
 function App() {
   return (
     <div>
-      <NewUser/>
+      <NewUser />
     </div>
   );
 }
