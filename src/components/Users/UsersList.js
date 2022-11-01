@@ -9,22 +9,22 @@ in a list. This list needs to be dynamically rendered..
 The new user will be passed up through props.
 */
 
-const deleteUserHandler = (userId) => {};
-
 const UsersList = (props) => {
   /*need to receive list item first*/
   return (
-    <Card>
-    <ul className={classes.users}>
-      {props.users.map((user) => (
-        /*Each list item is going to show a user who has
+    <Card className={classes.users}>
+      <ul>
+        {props.users.map((user) => (
+          /*Each list item is going to show a user who has
         been added to the list.
         
-        Each user has username and age props
+        Each user has username and age (and key) props
         */
-        <li onClick={deleteUserHandler}>{user.name} ({user.age} years old)</li>
-      ))}
-    </ul>
+          <li key={user.id}>
+            {user.name} ({user.age} years old)
+          </li>
+        ))}
+      </ul>
     </Card>
   );
 };
