@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import classes from "./NewUser.module.css";
 import Card from "../UI/Card.js";
 import Button from "../UI/Button";
@@ -6,30 +6,18 @@ import Modal from "../UI/Modal";
 import Wrapper from "../Helpers/Wrapper";
 
 const NewUser = (props) => {
-  //need state to capture user input
-  const [enteredUsername, setEnteredUsername] = useState("");
-  const [enteredAge, setEnteredAge] = useState("");
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
+  
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [message, setMessage] = useState("");
 
-  /*
-  Could check to see if entered username in empty,
-  in which case we could make the label and input
-  appear red. We can simply return if the user 
-  entered nothing, and then return the entered username
-  if the field is valid.
-  */
-  const usernameChangeHandler = (event) => {
-    setEnteredUsername(event.target.value);
-  };
-
-  const ageChangeHandler = (event) => {
-    setEnteredAge(event.target.value);
-  };
 
   const addUserHandler = (event) => {
     event.preventDefault();
-    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+    const enteredNameValue = nameInputRef.current.value;
+    const enteredAgeValue = ageInputRef.current.value;
+    if (enteredNameValue.trim().length === 0 || enteredAgeValue.trim().length === 0) {
       setMessage("Please enter a username or age!");
       setIsModalVisible(true);
       return;
@@ -42,7 +30,7 @@ const NewUser = (props) => {
     convert to a number so we're comparing two values
     of the same type.
     */
-    if (+enteredAge < 1) {
+    if (+enteredAgeValue < 1) {
       setMessage("Age cannot be less than 1!");
       setIsModalVisible(true);
       return;
@@ -53,10 +41,12 @@ const NewUser = (props) => {
     component's direct parent. App.js is where we
     actually create the object.
     */
-    props.onSaveUser(enteredUsername, enteredAge);
+    props.onSaveUser(enteredNameValue, enteredAgeValue);
 
-    setEnteredUsername("");
-    setEnteredAge("");
+    //can manipulate DOM directly to reset inputs, but not usually a good idea
+    nameInputRef.current.value = "";
+    ageInputRef.current.value = "";
+
   };
 
   const closeModalHandler = () => {
@@ -75,16 +65,14 @@ const NewUser = (props) => {
           <input
             id="username"
             type="text"
-            onChange={usernameChangeHandler}
-            value={enteredUsername}
+            ref={nameInputRef}
           />
 
           <label htmlFor="age">Age (Years)</label>
           <input
             id="age"
             type="number"
-            onChange={ageChangeHandler}
-            value={enteredAge}
+            ref={ageInputRef}
           />
 
           <Button type="submit" onClick={addUserHandler}>
