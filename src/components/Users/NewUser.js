@@ -3,6 +3,7 @@ import classes from "./NewUser.module.css";
 import Card from "../UI/Card.js";
 import Button from "../UI/Button";
 import Modal from "../UI/Modal";
+import Wrapper from "../Helpers/Wrapper";
 
 const NewUser = (props) => {
   //need state to capture user input
@@ -64,7 +65,7 @@ const NewUser = (props) => {
 
   //only display modal if isModalVisible
   return (
-    <div>
+    <Wrapper>
       {isModalVisible && (
         <Modal title="Error!" message={message} onClose={closeModalHandler} />
       )}
@@ -91,7 +92,7 @@ const NewUser = (props) => {
           </Button>
         </form>
       </Card>
-    </div>
+    </Wrapper>
   );
 };
 
